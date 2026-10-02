@@ -1,0 +1,1815 @@
+/* =================================
+   RESET
+================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #050505;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input,
+textarea {
+    font-family: inherit;
+}
+
+
+/* =================================
+   LOADER
+================================= */
+
+#loader {
+    position: fixed;
+    inset: 0;
+    background: #030303;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: loaderOut 1s ease 2.7s forwards;
+}
+
+.loader-content {
+    width: 400px;
+    max-width: 80%;
+    text-align: center;
+}
+
+.loader-logo {
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 5px;
+}
+
+.loader-logo span,
+.logo span,
+.footer-logo span {
+    color: #9b6cff;
+}
+
+.loader-content p {
+    margin-top: 15px;
+    color: #777;
+    font-size: 13px;
+}
+
+.loader-line {
+    height: 2px;
+    background: #222;
+    margin-top: 30px;
+    overflow: hidden;
+}
+
+.loader-line span {
+    display: block;
+    height: 100%;
+    background: #9b6cff;
+    animation: loaderProgress 2.3s ease forwards;
+}
+
+@keyframes loaderProgress {
+
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+
+}
+
+@keyframes loaderOut {
+
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+}
+
+
+/* =================================
+   PARTICULAS
+================================= */
+
+.particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
+
+    background-image:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(155,108,255,.15) 1px,
+            transparent 1px
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            rgba(155,108,255,.10) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        100px 100px,
+        150px 150px;
+
+    animation: particlesMove 20s linear infinite;
+}
+
+@keyframes particlesMove {
+
+    from {
+        background-position:
+            0 0,
+            0 0;
+    }
+
+    to {
+        background-position:
+            200px 200px,
+            -200px 150px;
+    }
+
+}
+
+
+/* =================================
+   CURSOR
+================================= */
+
+.cursor {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+}
+
+.cursor-blur {
+    position: fixed;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: rgba(155,108,255,.08);
+    filter: blur(40px);
+    pointer-events: none;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+}
+
+
+/* =================================
+   HEADER
+================================= */
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    padding: 0 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(5,5,5,.75);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255,255,255,.05);
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+nav {
+    display: flex;
+    gap: 30px;
+}
+
+nav a {
+    color: #888;
+    font-size: 13px;
+    transition: .3s;
+}
+
+nav a:hover {
+    color: #fff;
+}
+
+.login-btn {
+    border: 1px solid #333;
+    background: transparent;
+    color: #fff;
+    padding: 11px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.login-btn:hover {
+    border-color: #9b6cff;
+    box-shadow: 0 0 20px rgba(155,108,255,.2);
+}
+
+
+/* =================================
+   HERO
+================================= */
+
+.hero {
+    min-height: 100vh;
+    padding: 150px 8% 100px;
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    align-items: center;
+    gap: 80px;
+
+    background:
+        radial-gradient(
+            circle at 20% 40%,
+            rgba(155,108,255,.13),
+            transparent 35%
+        ),
+        #080808;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #aaa;
+    border: 1px solid #292929;
+    padding: 8px 13px;
+    border-radius: 30px;
+    margin-bottom: 25px;
+}
+
+.status span {
+    width: 7px;
+    height: 7px;
+    background: #64ff9a;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #64ff9a;
+}
+
+.eyebrow,
+.section-title p,
+.payment-info > p,
+.analytics-panel p:first-child,
+.contact .section-title p {
+    color: #9b6cff;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.hero h1 {
+    font-size: clamp(55px, 7vw, 100px);
+    line-height: .95;
+    letter-spacing: -5px;
+    margin: 20px 0;
+    max-width: 900px;
+}
+
+.hero h1 strong {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1px #9b6cff;
+}
+
+.hero-description {
+    max-width: 600px;
+    color: #999;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 35px;
+}
+
+.primary-btn,
+.secondary-btn {
+    padding: 14px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: .3s;
+}
+
+.primary-btn {
+    border: none;
+    background: #9b6cff;
+    color: #fff;
+    box-shadow: 0 0 30px rgba(155,108,255,.2);
+}
+
+.primary-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(155,108,255,.35);
+}
+
+.secondary-btn {
+    border: 1px solid #333;
+    color: #fff;
+}
+
+.secondary-btn:hover {
+    border-color: #9b6cff;
+}
+
+.mini-stats {
+    display: flex;
+    gap: 45px;
+    margin-top: 60px;
+}
+
+.mini-stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.mini-stats strong {
+    font-size: 23px;
+}
+
+.mini-stats span {
+    font-size: 9px;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+
+/* =================================
+   SYSTEM CARD
+================================= */
+
+.system-card {
+    border: 1px solid #292929;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(155,108,255,.1),
+            transparent 55%
+        ),
+        #101010;
+
+    border-radius: 25px;
+    padding: 25px;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.5);
+}
+
+.system-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #666;
+}
+
+.online {
+    color: #64ff9a;
+}
+
+.system-circle {
+    width: 260px;
+    height: 260px;
+
+    border: 1px solid #3a2b55;
+    border-radius: 50%;
+
+    margin: 60px auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 0 50px rgba(155,108,255,.12),
+        inset 0 0 50px rgba(155,108,255,.05);
+
+    animation: rotateCircle 12s linear infinite;
+}
+
+.system-circle div {
+    text-align: center;
+    animation: rotateCircleReverse 12s linear infinite;
+}
+
+.system-circle strong {
+    display: block;
+    font-size: 45px;
+}
+
+.system-circle span {
+    color: #777;
+    font-size: 10px;
+}
+
+@keyframes rotateCircle {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+@keyframes rotateCircleReverse {
+
+    to {
+        transform: rotate(-360deg);
+    }
+
+}
+
+.system-bottom {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+
+    border-top: 1px solid #222;
+    padding-top: 20px;
+}
+
+.system-bottom div {
+    text-align: center;
+}
+
+.system-bottom small {
+    display: block;
+    color: #555;
+    font-size: 8px;
+}
+
+.system-bottom strong {
+    font-size: 18px;
+}
+
+
+/* =================================
+   SECCIONES
+================================= */
+
+.services,
+.about,
+.security,
+.analytics,
+.contact {
+    padding: 140px 8%;
+}
+
+.services {
+    background: #111;
+}
+
+.section-title {
+    max-width: 800px;
+    margin-bottom: 60px;
+}
+
+.section-title h2,
+.payment-info h2,
+.analytics-panel h2 {
+    font-size: clamp(40px, 5vw, 70px);
+    line-height: 1;
+    margin: 18px 0;
+    letter-spacing: -3px;
+}
+
+.section-title span,
+.section-title > span {
+    color: #777;
+    line-height: 1.7;
+}
+
+
+/* =================================
+   PRODUCTOS
+================================= */
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+.service-card {
+    min-height: 360px;
+    padding: 35px;
+
+    background: #1b1b1b;
+
+    border: 1px solid #292929;
+    border-radius: 15px;
+
+    position: relative;
+    overflow: hidden;
+
+    transition: .4s;
+}
+
+.service-card:hover {
+    border-color: #9b6cff;
+    transform: translateY(-10px);
+}
+
+.card-number {
+    color: #444;
+    font-size: 12px;
+}
+
+.card-icon {
+    margin: 50px 0 25px;
+
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid #3b2a58;
+    color: #9b6cff;
+
+    border-radius: 12px;
+
+    font-size: 25px;
+}
+
+.service-card h3 {
+    font-size: 26px;
+    margin-bottom: 15px;
+}
+
+.service-card p {
+    color: #777;
+    line-height: 1.6;
+}
+
+.card-footer {
+    position: absolute;
+
+    bottom: 30px;
+    left: 35px;
+    right: 35px;
+
+    display: flex;
+    justify-content: space-between;
+
+    color: #777;
+
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.card-footer b {
+    color: #9b6cff;
+}
+
+
+/* =================================
+   ABOUT
+================================= */
+
+.about {
+    background:
+        radial-gradient(
+            circle at 80% 30%,
+            rgba(155,108,255,.09),
+            transparent 30%
+        ),
+        #050505;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 15px;
+}
+
+.stat-box {
+    background: #111;
+    border: 1px solid #222;
+
+    padding: 35px;
+
+    min-height: 150px;
+}
+
+.stat-box strong {
+    display: block;
+    font-size: 45px;
+    color: #9b6cff;
+}
+
+.stat-box span {
+    font-size: 9px;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+
+/* =================================
+   SERVICIOS
+================================= */
+
+.security {
+    background: #0d0d0d;
+}
+
+.security-main {
+    background: #101010;
+}
+
+.security-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 15px;
+}
+
+.security-card {
+    background: #191919;
+    border: 1px solid #272727;
+
+    padding: 30px;
+
+    min-height: 230px;
+
+    transition: .4s;
+}
+
+.security-card:hover {
+    border-color: #9b6cff;
+    transform: translateY(-8px);
+}
+
+.security-card > span {
+    color: #9b6cff;
+    font-size: 11px;
+}
+
+.security-card h3 {
+    margin: 55px 0 15px;
+    font-size: 22px;
+}
+
+.security-card p {
+    color: #777;
+    line-height: 1.5;
+}
+
+
+/* =================================
+   PRODUCTOS + SERVICIOS
+================================= */
+
+.payment-section {
+    padding: 150px 8%;
+
+    background:
+        radial-gradient(
+            circle at 80% 50%,
+            rgba(155,108,255,.16),
+            transparent 30%
+        ),
+        #161616;
+
+    display: grid;
+
+    grid-template-columns: 1fr 430px;
+
+    gap: 100px;
+
+    align-items: center;
+}
+
+.payment-info {
+    max-width: 700px;
+}
+
+.payment-info h2 strong {
+    color: #9b6cff;
+}
+
+.payment-info > p:not(:first-child) {
+    color: #777;
+    line-height: 1.7;
+    margin: 20px 0 40px;
+}
+
+.pack-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pack-item {
+    display: flex;
+    gap: 20px;
+
+    padding: 20px;
+
+    border: 1px solid #292929;
+
+    background: #101010;
+
+    transition: .3s;
+}
+
+.pack-item:hover {
+    border-color: #9b6cff;
+    transform: translateX(8px);
+}
+
+.pack-item > span {
+    color: #9b6cff;
+}
+
+.pack-item strong {
+    display: block;
+    margin-bottom: 7px;
+}
+
+.pack-item small {
+    color: #666;
+}
+
+
+/* =================================
+   TARJETA DE COMPRA
+================================= */
+
+.payment-card {
+    background: #0b0b0b;
+
+    border: 1px solid #343434;
+
+    border-radius: 20px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.5);
+
+    transition: .4s;
+}
+
+.payment-card:hover {
+    transform: translateY(-8px);
+    border-color: #9b6cff;
+}
+
+.payment-card-top {
+    display: flex;
+    justify-content: space-between;
+
+    color: #777;
+
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.product-preview {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    margin: 45px 0 30px;
+}
+
+.product-circle {
+    width: 65px;
+    height: 65px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 15px;
+
+    background: #171717;
+
+    border: 1px solid #3b2a58;
+
+    color: #9b6cff;
+
+    font-weight: bold;
+}
+
+.product-preview small {
+    color: #666;
+    font-size: 9px;
+}
+
+.product-preview h3 {
+    margin-top: 5px;
+}
+
+.price {
+    border-top: 1px solid #222;
+    padding-top: 25px;
+}
+
+.price small {
+    display: block;
+    color: #666;
+    font-size: 9px;
+}
+
+.price strong {
+    font-size: 42px;
+}
+
+.pay-btn {
+    margin-top: 25px;
+
+    width: 100%;
+
+    border: none;
+
+    background: #9b6cff;
+
+    color: #fff;
+
+    padding: 17px;
+
+    border-radius: 9px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    display: flex;
+    justify-content: space-between;
+
+    transition: .3s;
+}
+
+.pay-btn:hover {
+    box-shadow:
+        0 10px 40px rgba(155,108,255,.35);
+
+    transform: translateY(-3px);
+}
+
+.payment-methods {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 20px;
+
+    color: #555;
+
+    font-size: 9px;
+}
+
+
+/* =================================
+   ANALYTICS
+================================= */
+
+.analytics {
+    background: #080808;
+}
+
+.analytics-panel {
+
+    background:
+        radial-gradient(
+            circle at 70% 30%,
+            rgba(155,108,255,.15),
+            transparent 35%
+        ),
+        #101010;
+
+    border: 1px solid #252525;
+
+    padding: 70px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 300px;
+
+    gap: 80px;
+
+    align-items: center;
+}
+
+.analytics-panel h2 strong {
+    color: #9b6cff;
+}
+
+.analytics-panel > div:first-child > p:not(:first-child) {
+    color: #777;
+    line-height: 1.7;
+    margin: 20px 0 30px;
+}
+
+.analytics-counter {
+    text-align: center;
+
+    border-left: 1px solid #292929;
+
+    padding-left: 50px;
+}
+
+.analytics-counter small {
+    color: #666;
+    font-size: 9px;
+}
+
+.analytics-counter strong {
+    display: block;
+    font-size: 90px;
+    color: #9b6cff;
+}
+
+.analytics-counter span {
+    color: #666;
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+
+/* =================================
+   CONTACTO
+================================= */
+
+.contact {
+    background: #080808;
+}
+
+#contactForm {
+    max-width: 850px;
+}
+
+.form-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+}
+
+#contactForm input,
+#contactForm textarea {
+
+    width: 100%;
+
+    background: #111;
+
+    border: 1px solid #292929;
+
+    color: #fff;
+
+    padding: 17px;
+
+    border-radius: 7px;
+
+    margin-bottom: 15px;
+
+    outline: none;
+}
+
+#contactForm textarea {
+    height: 180px;
+    resize: vertical;
+}
+
+#contactForm input:focus,
+#contactForm textarea:focus {
+    border-color: #9b6cff;
+}
+
+#form-message {
+    margin-top: 20px;
+    color: #64ff9a;
+}
+
+
+/* =================================
+   FOOTER
+================================= */
+
+footer {
+    background: #030303;
+
+    padding: 70px 8% 30px;
+
+    border-top: 1px solid #151515;
+}
+
+.footer-logo {
+    font-size: 18px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+}
+
+footer p {
+    color: #555;
+    margin-top: 15px;
+}
+
+.footer-bottom {
+
+    margin-top: 60px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #151515;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #444;
+
+    font-size: 11px;
+}
+
+
+/* =================================
+   MODALES
+================================= */
+
+.modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.8);
+
+    backdrop-filter: blur(15px);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 5000;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition: .3s;
+}
+
+.modal.active {
+
+    opacity: 1;
+
+    visibility: visible;
+}
+
+.login-box,
+.checkout-box {
+
+    width: 430px;
+
+    max-width: 92%;
+
+    background: #111;
+
+    border: 1px solid #333;
+
+    border-radius: 18px;
+
+    padding: 35px;
+
+    position: relative;
+
+    transform: scale(.9);
+
+    transition: .3s;
+}
+
+.modal.active .login-box,
+.modal.active .checkout-box {
+    transform: scale(1);
+}
+
+.close-modal {
+
+    position: absolute;
+
+    top: 18px;
+    right: 20px;
+
+    background: transparent;
+
+    border: none;
+
+    color: #777;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+
+/* =================================
+   LOGIN
+================================= */
+
+.login-box > p,
+.checkout-header p {
+
+    color: #9b6cff;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+.login-box h2,
+.checkout-header h2 {
+
+    margin: 10px 0 30px;
+
+    font-size: 30px;
+}
+
+.login-box input {
+
+    width: 100%;
+
+    margin-bottom: 12px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    color: #fff;
+
+    padding: 15px;
+
+    border-radius: 7px;
+
+    outline: none;
+}
+
+.login-box .primary-btn {
+
+    width: 100%;
+
+    margin-top: 10px;
+}
+
+#login-message {
+
+    display: block;
+
+    margin-top: 15px;
+
+    color: #64ff9a;
+
+    text-align: center;
+}
+
+
+/* =================================
+   CHECKOUT
+================================= */
+
+.checkout-box {
+
+    width: 540px;
+
+    max-height: 92vh;
+
+    overflow-y: auto;
+}
+
+.checkout-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+}
+
+.secure-badge {
+
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #171717;
+
+    border: 1px solid #2d2340;
+
+    border-radius: 10px;
+}
+
+
+/* PRODUCTO */
+
+.checkout-product {
+
+    display: grid;
+
+    grid-template-columns: 55px 1fr auto;
+
+    gap: 15px;
+
+    align-items: center;
+
+    padding: 15px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 10px;
+
+    margin-bottom: 25px;
+}
+
+.checkout-product-icon {
+
+    width: 50px;
+    height: 50px;
+
+    background: #211a2e;
+
+    color: #9b6cff;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 8px;
+
+    font-weight: bold;
+}
+
+.checkout-product span {
+
+    display: block;
+
+    color: #666;
+
+    font-size: 11px;
+
+    margin-top: 4px;
+}
+
+
+/* =================================
+   SECCIONES DEL CHECKOUT
+================================= */
+
+.checkout-section-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 25px 0 20px;
+}
+
+.checkout-section-title > span {
+
+    width: 30px;
+    height: 30px;
+
+    border-radius: 50%;
+
+    background: #211a2e;
+
+    border: 1px solid #44365a;
+
+    color: #9b6cff;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 10px;
+
+    font-weight: bold;
+}
+
+.checkout-section-title strong {
+
+    display: block;
+
+    color: #fff;
+
+    font-size: 14px;
+}
+
+.checkout-section-title small {
+
+    display: block;
+
+    color: #666;
+
+    font-size: 9px;
+
+    margin-top: 3px;
+}
+
+.checkout-divider {
+
+    height: 1px;
+
+    background: #292929;
+
+    margin: 30px 0 10px;
+}
+
+
+/* =================================
+   FORMULARIO DE PAGO
+================================= */
+
+#paymentForm label {
+
+    display: block;
+
+    color: #999;
+
+    font-size: 11px;
+
+    margin-bottom: 17px;
+}
+
+#paymentForm input {
+
+    display: block;
+
+    width: 100%;
+
+    background: #181818;
+
+    border: 1px solid #303030;
+
+    color: #fff;
+
+    padding: 14px;
+
+    border-radius: 7px;
+
+    margin-top: 7px;
+
+    outline: none;
+
+    transition: .3s;
+}
+
+#paymentForm input:focus {
+
+    border-color: #9b6cff;
+
+    box-shadow:
+        0 0 15px rgba(155,108,255,.08);
+}
+
+
+/* DIRECCION */
+
+#deliveryAddress {
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(155,108,255,.04),
+            transparent
+        ),
+        #181818 !important;
+}
+
+
+/* FILAS */
+
+.payment-row {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+}
+
+
+/* TARJETA */
+
+.card-input {
+    position: relative;
+}
+
+.card-input input {
+
+    padding-right: 70px !important;
+}
+
+.card-input span {
+
+    position: absolute;
+
+    right: 14px;
+
+    top: 21px;
+
+    color: #9b6cff;
+
+    font-size: 9px;
+
+    font-weight: bold;
+}
+
+
+/* =================================
+   TARJETA VISUAL
+================================= */
+
+.fake-card {
+
+    margin: 25px 0;
+
+    padding: 25px;
+
+    min-height: 190px;
+
+    border-radius: 15px;
+
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(155,108,255,.4),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #151515,
+            #25202d
+        );
+
+    border: 1px solid #44365a;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.35);
+}
+
+.fake-card-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #aaa;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+.fake-card-top span:last-child {
+
+    color: #9b6cff;
+
+    font-weight: bold;
+}
+
+.chip {
+
+    width: 43px;
+    height: 32px;
+
+    border-radius: 6px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #aaa,
+            #555
+        );
+
+    margin: 30px 0 20px;
+}
+
+.fake-card > strong {
+
+    font-size: 17px;
+
+    letter-spacing: 3px;
+}
+
+.fake-card-bottom {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 25px;
+
+    color: #aaa;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+}
+
+
+/* =================================
+   SEGURIDAD DEL PAGO
+================================= */
+
+.payment-security {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    background: #0c0c0c;
+
+    border: 1px solid #222;
+
+    padding: 12px;
+
+    border-radius: 7px;
+}
+
+.payment-security p {
+
+    color: #666;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+/* =================================
+   BOTON CONFIRMAR
+================================= */
+
+.confirm-payment {
+
+    width: 100%;
+
+    border: none;
+
+    margin-top: 15px;
+
+    padding: 17px;
+
+    border-radius: 8px;
+
+    background: #9b6cff;
+
+    color: #fff;
+
+    cursor: pointer;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    font-weight: bold;
+
+    transition: .3s;
+}
+
+.confirm-payment:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 15px 35px rgba(155,108,255,.3);
+}
+
+.confirm-payment:disabled {
+
+    opacity: .7;
+
+    cursor: wait;
+
+    transform: none;
+}
+
+#payment-message {
+
+    text-align: center;
+
+    margin-top: 15px;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =================================
+   SCROLL REVEAL
+================================= */
+
+.section-reveal {
+
+    opacity: 0;
+
+    transform: translateY(40px);
+
+    transition: 1s ease;
+}
+
+.section-reveal.visible {
+
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+
+/* =================================
+   RESPONSIVE
+================================= */
+
+@media(max-width: 1000px) {
+
+    nav {
+        display: none;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+    }
+
+    .system-card {
+        max-width: 500px;
+    }
+
+    .service-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .security-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .about-content {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-section {
+        grid-template-columns: 1fr;
+    }
+
+    .analytics-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .analytics-counter {
+
+        border-left: none;
+
+        border-top: 1px solid #292929;
+
+        padding: 40px 0 0;
+    }
+
+}
+
+
+@media(max-width: 600px) {
+
+    header {
+        padding: 0 5%;
+    }
+
+    .login-btn {
+        display: none;
+    }
+
+    .hero {
+        padding: 130px 6% 80px;
+    }
+
+    .hero h1 {
+        font-size: 55px;
+    }
+
+    .mini-stats {
+        gap: 20px;
+    }
+
+    .services,
+    .about,
+    .security,
+    .analytics,
+    .contact,
+    .payment-section {
+        padding: 90px 6%;
+    }
+
+    .security-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .analytics-panel {
+        padding: 35px;
+    }
+
+    .payment-section {
+        gap: 50px;
+    }
+
+    .checkout-box {
+        padding: 25px;
+    }
+
+    .fake-card {
+        min-height: 170px;
+    }
+
+    .payment-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+}
+
+
+@media(prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration: .01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        scroll-behavior: auto !important;
+
+        transition-duration: .01ms !important;
+    }
+
+}
