@@ -1311,108 +1311,88 @@ window.addEventListener(
 })();
 
 
-/* ===== LECTURA EN VOZ ALTA EN ESPAÑOL ===== */
+/* ===== LECTURA AL PASAR / ENFOCAR ELEMENTOS (ESPAÑOL) ===== */
 (() => {
-  const readButton = document.getElementById('speakPage');
-  const pauseButton = document.getElementById('pauseSpeech');
-  const resumeButton = document.getElementById('resumeSpeech');
-  const stopButton = document.getElementById('stopSpeech');
-  const status = document.getElementById('speechStatus');
-  if (!readButton || !('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) {
-    if (readButton) readButton.addEventListener('click', () => {
-      if (status) status.textContent = 'Tu navegador no admite la lectura en voz alta. Prueba con una versión actualizada de Chrome, Edge, Firefox o Safari.';
-    });
-    return;
-  }
+  if (!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) return;
 
   const synth = window.speechSynthesis;
-  let chunks = [];
-  let current = 0;
-  let reading = false;
-  let stopped = false;
+  const status = document.getElementById('speechStatus');
+  const selector = [
+    'button', 'a[href]', 'input:not([type="hidden"])', 'select', 'textarea', 'label',
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'li', 'summary',
+    '[role="button"]', '[role="link"]', '[data-speak]'
+  ].join(',');
 
-  const updateControls = () => {
-    const speaking = reading && !stopped;
-    pauseButton.disabled = !speaking || synth.paused;
-    resumeButton.disabled = !speaking || !synth.paused;
-    stopButton.disabled = !speaking;
-  };
+  let lastElement = null;
+  let lastText = '';
+  let lastSpokenAt = 0;
+  let activeUtterance = null;
 
-  // Extrae el contenido principal visible y evita leer controles y elementos ocultos.
-  const getPageText = () => {
-    const main = document.querySelector('main') || document.body;
-    const clone = main.cloneNode(true);
-    clone.querySelectorAll('script,style,noscript,button,input,select,textarea,video,audio,iframe,[hidden],[aria-hidden="true"],.sr-only').forEach(el => el.remove());
-    return (clone.innerText || clone.textContent || '')
-      .replace(/[\t ]+/g, ' ')
-      .replace(/\n{2,}/g, '\n')
-      .split(/(?<=[.!?;:])\s+|\n+/)
-      .map(part => part.trim())
-      .filter(Boolean)
-      .flatMap(part => {
-        const result = [];
-        while (part.length > 220) {
-          let cut = part.lastIndexOf(' ', 220);
-          if (cut < 100) cut = 220;
-          result.push(part.slice(0, cut).trim());
-          part = part.slice(cut).trim();
-        }
-        if (part) result.push(part);
-        return result;
-      });
-  };
-
-  const speakNext = () => {
-    if (stopped || current >= chunks.length) {
-      reading = false;
-      stopped = false;
-      updateControls();
-      if (status) status.textContent = 'Lectura finalizada.';
-      return;
+  const getSpeakableText = (element) => {
+    if (!element || element.closest('[aria-hidden="true"], [hidden], .sr-only')) return '';
+    const explicit = element.getAttribute('aria-label') || element.getAttribute('title') || element.getAttribute('alt');
+    let text = explicit || element.innerText || element.textContent || '';
+    if (element.matches('input, textarea, select')) {
+      const label = element.labels && element.labels.length
+        ? Array.from(element.labels).map(item => item.innerText).join(' ')
+        : '';
+      text = [label, element.getAttribute('placeholder'), element.value].filter(Boolean).join('. ') || explicit || '';
     }
-    const utterance = new SpeechSynthesisUtterance(chunks[current]);
-    utterance.lang = 'es-ES';
-    utterance.rate = 1;
-    utterance.pitch = 1;
-    const voices = synth.getVoices();
-    const spanishVoice = voices.find(voice => /^es(-|_)/i.test(voice.lang) && /ES/i.test(voice.lang))
-      || voices.find(voice => /^es(-|_)/i.test(voice.lang));
-    if (spanishVoice) utterance.voice = spanishVoice;
-    utterance.onend = () => { current += 1; speakNext(); };
-    utterance.onerror = event => {
-      if (event.error === 'canceled' || event.error === 'interrupted') return;
-      reading = false; stopped = true; updateControls();
-      if (status) status.textContent = 'No se ha podido continuar la lectura. Puedes volver a intentarlo.';
-    };
-    synth.speak(utterance);
-    updateControls();
+    text = String(text).replace(/[\t\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+    return text.slice(0, 450);
   };
 
-  readButton.addEventListener('click', () => {
+  const speakElement = (element) => {
+    const text = getSpeakableText(element);
+    if (!text) return;
+    const now = Date.now();
+    if (element === lastElement && text === lastText && now - lastSpokenAt < 1200) return;
+    lastElement = element;
+    lastText = text;
+    lastSpokenAt = now;
+
     synth.cancel();
-    chunks = getPageText();
-    current = 0; stopped = false; reading = true;
-    if (!chunks.length) {
-      reading = false; updateControls();
-      if (status) status.textContent = 'No se ha encontrado texto para leer.';
-      return;
-    }
-    if (status) status.textContent = 'Comienza la lectura en español.';
-    speakNext();
+    activeUtterance = new SpeechSynthesisUtterance(text);
+    activeUtterance.lang = 'es-ES';
+    activeUtterance.rate = 1;
+    activeUtterance.pitch = 1;
+    const voices = synth.getVoices();
+    const spanishVoice = voices.find(voice => /^es[-_]ES$/i.test(voice.lang))
+      || voices.find(voice => /^es([-_])/i.test(voice.lang));
+    if (spanishVoice) activeUtterance.voice = spanishVoice;
+    activeUtterance.onerror = () => {};
+    synth.speak(activeUtterance);
+    if (status) status.textContent = text;
+  };
+
+  const findTarget = (target) => {
+    if (!(target instanceof Element)) return null;
+    return target.closest(selector);
+  };
+
+  // Ordenador: al colocar el cursor sobre un control o fragmento de texto, se lee solo ese elemento.
+  document.addEventListener('pointerover', (event) => {
+    if (event.pointerType === 'touch') return;
+    const element = findTarget(event.target);
+    if (!element || element.contains(event.relatedTarget)) return;
+    speakElement(element);
   });
 
-  pauseButton.addEventListener('click', () => {
-    if (synth.speaking && !synth.paused) { synth.pause(); updateControls(); if (status) status.textContent = 'Lectura pausada.'; }
-  });
-  resumeButton.addEventListener('click', () => {
-    if (synth.paused) { synth.resume(); updateControls(); if (status) status.textContent = 'Lectura reanudada.'; }
-  });
-  stopButton.addEventListener('click', () => {
-    stopped = true; reading = false; synth.cancel(); updateControls();
-    if (status) status.textContent = 'Lectura detenida.';
+  // Teclado: también se lee el elemento que recibe el foco al navegar con Tab.
+  document.addEventListener('focusin', (event) => {
+    const element = findTarget(event.target);
+    if (element) speakElement(element);
   });
 
-  // Algunos navegadores cargan las voces de forma asíncrona.
-  if (typeof synth.onvoiceschanged !== 'undefined') synth.onvoiceschanged = () => {};
-  updateControls();
+  // Móvil/tablet: al tocar un elemento se lee su contenido sin bloquear su acción normal.
+  document.addEventListener('pointerdown', (event) => {
+    if (event.pointerType !== 'touch' && event.pointerType !== 'pen') return;
+    const element = findTarget(event.target);
+    if (element) speakElement(element);
+  }, { passive: true });
+
+  // Al cambiar de pestaña se corta la voz para evitar que siga hablando en segundo plano.
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) synth.cancel();
+  });
 })();
