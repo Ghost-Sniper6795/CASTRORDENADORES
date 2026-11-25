@@ -1814,7 +1814,7 @@ footer p {
 
 }
 
-
+/* ===== Accesibilidad añadida: respeta el diseño original ===== */
 :root { --a11y-font-scale: 1; }
 html { font-size: calc(16px * var(--a11y-font-scale)); }
 .skip-link { position: fixed; z-index: 100000; top: 8px; left: 8px; padding: 12px 16px; background: #fff; color: #111; transform: translateY(-160%); border-radius: 8px; }
@@ -1834,3 +1834,9 @@ body.a11y-reduce-motion *,body.a11y-reduce-motion *::before,body.a11y-reduce-mot
 @media (max-width:700px) { .accessibility-bar { justify-content:center; } .video-section { padding:48px 5%; } }
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; transition-duration:.01ms!important; } }
 @media (forced-colors:active) { a,button,input,select,textarea { forced-color-adjust:auto; } }
+
+
+/* ===== Lectura en voz alta en español ===== */
+.a11y-speech-controls { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.a11y-speech-controls button:disabled { opacity:.48; cursor:not-allowed; }
+@media (max-width:700px) { .a11y-speech-controls { justify-content:center; } }

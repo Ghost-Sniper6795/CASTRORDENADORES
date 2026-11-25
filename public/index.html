@@ -23,6 +23,13 @@
       <button type="button" id="fontUp" aria-label="Aumentar tamaño del texto">A+</button>
       <button type="button" id="contrastToggle" aria-pressed="false" data-i18n="contrast">Alto contraste</button>
       <button type="button" id="motionToggle" aria-pressed="false" data-i18n="motion">Reducir movimiento</button>
+      <span class="a11y-speech-controls" role="group" aria-label="Lectura en voz alta">
+        <button type="button" id="speakPage">Leer en voz alta</button>
+        <button type="button" id="pauseSpeech" disabled>Pausar</button>
+        <button type="button" id="resumeSpeech" disabled>Reanudar</button>
+        <button type="button" id="stopSpeech" disabled>Detener</button>
+      </span>
+      <span id="speechStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></span>
     </div>
 
     <!-- ================================

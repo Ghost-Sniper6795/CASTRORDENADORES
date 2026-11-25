@@ -1309,3 +1309,110 @@ window.addEventListener(
     modal.setAttribute('aria-hidden', String(getComputedStyle(modal).display === 'none'));
   });
 })();
+
+
+/* ===== LECTURA EN VOZ ALTA EN ESPAÑOL ===== */
+(() => {
+  const readButton = document.getElementById('speakPage');
+  const pauseButton = document.getElementById('pauseSpeech');
+  const resumeButton = document.getElementById('resumeSpeech');
+  const stopButton = document.getElementById('stopSpeech');
+  const status = document.getElementById('speechStatus');
+  if (!readButton || !('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) {
+    if (readButton) readButton.addEventListener('click', () => {
+      if (status) status.textContent = 'Tu navegador no admite la lectura en voz alta. Prueba con una versión actualizada de Chrome, Edge, Firefox o Safari.';
+    });
+    return;
+  }
+
+  const synth = window.speechSynthesis;
+  let chunks = [];
+  let current = 0;
+  let reading = false;
+  let stopped = false;
+
+  const updateControls = () => {
+    const speaking = reading && !stopped;
+    pauseButton.disabled = !speaking || synth.paused;
+    resumeButton.disabled = !speaking || !synth.paused;
+    stopButton.disabled = !speaking;
+  };
+
+  // Extrae el contenido principal visible y evita leer controles y elementos ocultos.
+  const getPageText = () => {
+    const main = document.querySelector('main') || document.body;
+    const clone = main.cloneNode(true);
+    clone.querySelectorAll('script,style,noscript,button,input,select,textarea,video,audio,iframe,[hidden],[aria-hidden="true"],.sr-only').forEach(el => el.remove());
+    return (clone.innerText || clone.textContent || '')
+      .replace(/[\t ]+/g, ' ')
+      .replace(/\n{2,}/g, '\n')
+      .split(/(?<=[.!?;:])\s+|\n+/)
+      .map(part => part.trim())
+      .filter(Boolean)
+      .flatMap(part => {
+        const result = [];
+        while (part.length > 220) {
+          let cut = part.lastIndexOf(' ', 220);
+          if (cut < 100) cut = 220;
+          result.push(part.slice(0, cut).trim());
+          part = part.slice(cut).trim();
+        }
+        if (part) result.push(part);
+        return result;
+      });
+  };
+
+  const speakNext = () => {
+    if (stopped || current >= chunks.length) {
+      reading = false;
+      stopped = false;
+      updateControls();
+      if (status) status.textContent = 'Lectura finalizada.';
+      return;
+    }
+    const utterance = new SpeechSynthesisUtterance(chunks[current]);
+    utterance.lang = 'es-ES';
+    utterance.rate = 1;
+    utterance.pitch = 1;
+    const voices = synth.getVoices();
+    const spanishVoice = voices.find(voice => /^es(-|_)/i.test(voice.lang) && /ES/i.test(voice.lang))
+      || voices.find(voice => /^es(-|_)/i.test(voice.lang));
+    if (spanishVoice) utterance.voice = spanishVoice;
+    utterance.onend = () => { current += 1; speakNext(); };
+    utterance.onerror = event => {
+      if (event.error === 'canceled' || event.error === 'interrupted') return;
+      reading = false; stopped = true; updateControls();
+      if (status) status.textContent = 'No se ha podido continuar la lectura. Puedes volver a intentarlo.';
+    };
+    synth.speak(utterance);
+    updateControls();
+  };
+
+  readButton.addEventListener('click', () => {
+    synth.cancel();
+    chunks = getPageText();
+    current = 0; stopped = false; reading = true;
+    if (!chunks.length) {
+      reading = false; updateControls();
+      if (status) status.textContent = 'No se ha encontrado texto para leer.';
+      return;
+    }
+    if (status) status.textContent = 'Comienza la lectura en español.';
+    speakNext();
+  });
+
+  pauseButton.addEventListener('click', () => {
+    if (synth.speaking && !synth.paused) { synth.pause(); updateControls(); if (status) status.textContent = 'Lectura pausada.'; }
+  });
+  resumeButton.addEventListener('click', () => {
+    if (synth.paused) { synth.resume(); updateControls(); if (status) status.textContent = 'Lectura reanudada.'; }
+  });
+  stopButton.addEventListener('click', () => {
+    stopped = true; reading = false; synth.cancel(); updateControls();
+    if (status) status.textContent = 'Lectura detenida.';
+  });
+
+  // Algunos navegadores cargan las voces de forma asíncrona.
+  if (typeof synth.onvoiceschanged !== 'undefined') synth.onvoiceschanged = () => {};
+  updateControls();
+})();
