@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CASTRORDENADORES: tecnología, productos, componentes y servicios informáticos.">
+    <meta name="theme-color" content="#080b14">
 
     <title>CASTRORDENADORES. | Tecnología y servicios</title>
 
@@ -11,6 +13,17 @@
 </head>
 
 <body>
+    <a class="skip-link" href="#inicio" data-i18n="skip">Saltar al contenido principal</a>
+    <div class="accessibility-bar" role="region" aria-label="Opciones de accesibilidad">
+      <label for="languageSelect" data-i18n="language">Idioma</label>
+      <select id="languageSelect" aria-label="Seleccionar idioma">
+        <option value="es">Español</option><option value="en">English</option><option value="zh">中文</option><option value="de">Deutsch</option>
+      </select>
+      <button type="button" id="fontDown" aria-label="Reducir tamaño del texto">A−</button>
+      <button type="button" id="fontUp" aria-label="Aumentar tamaño del texto">A+</button>
+      <button type="button" id="contrastToggle" aria-pressed="false" data-i18n="contrast">Alto contraste</button>
+      <button type="button" id="motionToggle" aria-pressed="false" data-i18n="motion">Reducir movimiento</button>
+    </div>
 
     <!-- ================================
          LOADER
@@ -39,13 +52,13 @@
          CURSOR
     ================================= -->
 
-    <div class="cursor"></div>
-    <div class="cursor-blur"></div>
+    <div class="cursor" aria-hidden="true"></div>
+    <div class="cursor-blur" aria-hidden="true"></div>
 
 
     <!-- PARTICULAS -->
 
-    <div class="particles"></div>
+    <div class="particles" aria-hidden="true"></div>
 
 
     <!-- ================================
@@ -58,7 +71,7 @@
             CASTRORDENADORES<span>.</span>
         </div>
 
-        <nav>
+        <nav aria-label="Navegación principal">
 
             <a href="#inicio">Inicio</a>
 
@@ -83,7 +96,7 @@
          HERO
     ================================= -->
 
-    <main id="inicio">
+    <main id="inicio" tabindex="-1">
 
         <section class="hero">
 
@@ -954,11 +967,13 @@
             </div>
 
 
-            <form id="contactForm">
+            <form id="contactForm" aria-label="Formulario de contacto">
 
                 <div class="form-row">
 
                     <input
+                        aria-label="Nombre"
+                        autocomplete="name"
                         type="text"
                         placeholder="Nombre"
                         required
@@ -1000,12 +1015,27 @@
 
         </section>
 
+
+        <!-- VÍDEO ACCESIBLE: configura la URL en script.js -->
+        <section id="video-ayuda" class="video-section section-reveal" aria-labelledby="videoTitle">
+          <div class="section-title">
+            <p>07 / VÍDEO</p>
+            <h2 id="videoTitle" data-i18n="videoTitle">Conoce CASTRORDENADORES.</h2>
+            <span data-i18n="videoDesc">Reproduce nuestro vídeo con subtítulos y controles compatibles con teclado.</span>
+          </div>
+          <div id="videoPlayer" class="video-player" aria-live="polite">
+            <p data-i18n="videoConfig">El vídeo estará disponible cuando se configure su enlace de YouTube o archivo MP4.</p>
+          </div>
+          <p class="video-note" data-i18n="videoNote">Si el vídeo dispone de subtítulos en varios idiomas, podrás seleccionarlos desde el reproductor.</p>
+        </section>
+
     </main>
 
 
     <!-- ================================
          FOOTER
     ================================= -->
+
 
     <footer>
 
@@ -1037,7 +1067,7 @@
          LOGIN MODAL
     ================================= -->
 
-    <div id="loginModal" class="modal">
+    <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="loginTitle" aria-hidden="true">
 
         <div class="login-box">
 
@@ -1054,21 +1084,27 @@
             </p>
 
 
-            <h2>
+            <h2 id="loginTitle">
                 Iniciar sesión
             </h2>
 
 
+            <label class="sr-only" for="loginEmail">Correo electrónico</label>
             <input
                 type="email"
+                autocomplete="username"
                 placeholder="Correo electrónico"
+                aria-label="Correo electrónico"
                 id="loginEmail"
             >
 
 
+            <label class="sr-only" for="loginPassword">Contraseña</label>
             <input
                 type="password"
+                autocomplete="current-password"
                 placeholder="Contraseña"
+                aria-label="Contraseña"
                 id="loginPassword"
             >
 
@@ -1092,7 +1128,7 @@
          MODAL DE PAGO
     ================================= -->
 
-    <div id="paymentModal" class="modal payment-modal">
+    <div id="paymentModal" class="modal payment-modal" role="dialog" aria-modal="true" aria-labelledby="paymentTitle" aria-hidden="true">
 
         <div class="checkout-box">
 
@@ -1114,7 +1150,7 @@
                         CASTRORDENADORES
                     </p>
 
-                    <h2>
+                    <h2 id="paymentTitle">
                         Finalizar compra
                     </h2>
 
@@ -1221,22 +1257,6 @@
                 </div>
 
 
-                <!-- EMAIL -->
-
-                <label>
-
-                    Correo electrónico
-
-                    <input
-                        type="email"
-                        id="deliveryEmail"
-                        placeholder="tu@email.com"
-                        required
-                    >
-
-                </label>
-
-
                 <!-- DIRECCION -->
 
                 <label>
@@ -1311,7 +1331,7 @@
                 <div class="checkout-divider"></div>
 
 
-                <!-- PAGO CON STRIPE -->
+                <!-- DATOS DE PAGO -->
 
                 <div class="checkout-section-title">
 
@@ -1322,12 +1342,135 @@
                     <div>
 
                         <strong>
-                            Pago seguro
+                            Datos de pago
                         </strong>
 
                         <small>
-                            Serás redirigido a Stripe (pago cifrado)
+                            Pago seguro y cifrado
                         </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TITULAR -->
+
+                <label>
+
+                    Nombre del titular
+
+                    <input
+                        type="text"
+                        id="cardName"
+                        placeholder="Pablo Castro"
+                        required
+                    >
+
+                </label>
+
+
+                <!-- NUMERO TARJETA -->
+
+                <label>
+
+                    Número de tarjeta
+
+                    <div class="card-input">
+
+                        <input
+                            type="text"
+                            id="cardNumber"
+                            placeholder="1234 5678 9012 3456"
+                            maxlength="19"
+                            inputmode="numeric"
+                            required
+                        >
+
+                        <span id="cardType">
+                            CARD
+                        </span>
+
+                    </div>
+
+                </label>
+
+
+                <!-- CADUCIDAD + CVV -->
+
+                <div class="payment-row">
+
+
+                    <label>
+
+                        Caducidad
+
+                        <input
+                            type="text"
+                            id="cardExpiry"
+                            placeholder="MM/AA"
+                            maxlength="5"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        CVV
+
+                        <input
+                            type="password"
+                            id="cardCvv"
+                            placeholder="•••"
+                            maxlength="4"
+                            inputmode="numeric"
+                            required
+                        >
+
+                    </label>
+
+                </div>
+
+
+                <!-- TARJETA VISUAL -->
+
+                <div class="fake-card">
+
+
+                    <div class="fake-card-top">
+
+                        <span>
+                            CASTRORDENADORES
+                        </span>
+
+                        <span id="visualCardType">
+                            CARD
+                        </span>
+
+                    </div>
+
+
+                    <div class="chip"></div>
+
+
+                    <strong id="visualCardNumber">
+
+                        •••• •••• •••• ••••
+
+                    </strong>
+
+
+                    <div class="fake-card-bottom">
+
+                        <span id="visualCardName">
+                            TITULAR DE LA TARJETA
+                        </span>
+
+                        <span id="visualCardExpiry">
+                            MM/AA
+                        </span>
 
                     </div>
 
@@ -1344,9 +1487,9 @@
 
                     <p>
 
-                        El pago se procesa de forma segura a través
-                        de Stripe. No almacenamos datos de tarjetas.
-                        Aceptamos VISA, Mastercard, etc.
+                        Pago simulado para proyecto académico.
+                        No se realizará ningún cargo real ni se
+                        almacenarán los datos introducidos.
 
                     </p>
 
@@ -1361,7 +1504,7 @@
                 >
 
                     <span>
-                        Pagar con Stripe
+                        Confirmar pedido
                     </span>
 
                     <strong>
@@ -1383,7 +1526,7 @@
 
     <!-- JAVASCRIPT -->
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 
 </body>
 
